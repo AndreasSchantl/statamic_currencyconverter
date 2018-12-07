@@ -7,11 +7,9 @@ Copy the folder `CurrencyConverter` into Statamic's addon folder.
 ### Template
 ```
 {{ currency_converter from="USD" to="EUR" amount="99.85" }}
-    { converted }}
-        <div class="bg-grey-darkest text-grey-lighest p-2 mx-4 shadow-inner">
-            <span>≈ {{ currency }} {{ converted_amount }}</span>
-        </div>
-    {{ /converted }}
+    <div class="bg-grey-darkest text-grey-lighest p-2 mx-4 shadow-inner">
+        <span>≈ {{ currency }} {{ converted_amount }}</span>
+    </div>
 {{ /currency_converter }}`
 ```  
 
