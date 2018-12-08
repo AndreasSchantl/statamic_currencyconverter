@@ -49,7 +49,7 @@ class CurrencyConverterAPI extends API
      */
     public function convert($amount, $from, $to)
     {
-        return collect(Helper::ensureArray($to))->map(function ($code, $key) use($amount, $from, $to) {
+        return collect($to = Helper::ensureArray($to))->map(function ($code, $key) use($amount, $from, $to) {
             return [
                 'currency' => $to[$key],
                 'converted_amount' => $this->getConversionRate($from, $to[$key]) * $amount,
