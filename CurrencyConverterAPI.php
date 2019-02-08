@@ -5,6 +5,7 @@ namespace Statamic\Addons\CurrencyConverter;
 use Statamic\API\Cache;
 use Statamic\API\Helper;
 use Statamic\Extend\API;
+use Log;
 
 class CurrencyConverterAPI extends API
 {
@@ -25,11 +26,22 @@ class CurrencyConverterAPI extends API
         if (Cache::has($key)) {
             return Cache::get($key);
         }
-    
-        $rateObject = file_get_contents($requestUrl . $key);
+
+        try {
+            $rateObject = file_get_contents($requestUrl . $key);
+        } catch (\Exception $e) {
+            Log::error('Currency-Converter: Problem reaching API');
+            return false;
+        }
 
         if ($rateObject != false) {
             $rateObject = json_decode($rateObject);
+
+            if ($rateObject == false || $rateObject->query->count == 0) {
+                Log::info('Currency-Converter: Could not gather the rate of the conversion ' . $key);
+                return false;
+            }
+
             $rate = $rateObject->results->{ $key }->val;
 
             Cache::put($key, $rate, 60);
@@ -49,7 +61,7 @@ class CurrencyConverterAPI extends API
      */
     public function convert($amount, $from, $to)
     {
-        return collect($to = Helper::ensureArray($to))->map(function ($code, $key) use($amount, $from, $to) {
+        return collect($to = Helper::ensureArray($to))->map(function ($code, $key) use ($amount, $from, $to) {
             return [
                 'currency' => $to[$key],
                 'converted_amount' => $this->getConversionRate($from, $to[$key]) * $amount,
