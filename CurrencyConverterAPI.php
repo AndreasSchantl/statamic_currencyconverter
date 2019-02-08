@@ -36,6 +36,12 @@ class CurrencyConverterAPI extends API
 
         if ($rateObject != false) {
             $rateObject = json_decode($rateObject);
+
+            if ($rateObject == false || $rateObject->query->count == 0) {
+                Log::info('Currency-Converter: Could not gather the rate of the conversion ' . $key);
+                return false;
+            }
+
             $rate = $rateObject->results->{ $key }->val;
 
             Cache::put($key, $rate, 60);
