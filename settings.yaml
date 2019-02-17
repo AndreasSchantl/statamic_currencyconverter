@@ -1,0 +1,3 @@
+fields:
+  apikey:
+    type: text
