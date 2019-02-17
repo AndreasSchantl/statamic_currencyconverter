@@ -2,6 +2,8 @@
 
 ## Installation
 Copy the folder `CurrencyConverter` into Statamic's addon folder.
+## Installation
+Copy the CurrencyConverter folder into the addons folder of your site. After that, go into the control panel -> Addons and set the API Key for your site. You can get a key [here](https://free.currencyconverterapi.com/free-api-key).
 
 ## Usage
 ### Template

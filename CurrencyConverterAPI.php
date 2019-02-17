@@ -20,7 +20,7 @@ class CurrencyConverterAPI extends API
      */
     public function getConversionRate($from, $to)
     {
-        $requestUrl = 'https://free.currencyconverterapi.com/api/v6/convert?q=';
+        $requestUrl = 'https://free.currencyconverterapi.com/api/v6/convert?apiKey=' . $this->getConfig('apikey') . '&q=';
         $key = $from . '_' . $to;
 
         if (Cache::has($key)) {
@@ -37,7 +37,7 @@ class CurrencyConverterAPI extends API
         if ($rateObject != false) {
             $rateObject = json_decode($rateObject);
 
-            if ($rateObject == false || $rateObject->query->count == 0) {
+            if ($rateObject == false || !isset($rateObject->results{$key}) || $rateObject->query->count == 0) {
                 Log::info('Currency-Converter: Could not gather the rate of the conversion ' . $key);
                 return false;
             }
