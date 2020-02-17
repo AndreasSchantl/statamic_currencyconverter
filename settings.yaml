@@ -1,3 +1,5 @@
 fields:
   apikey:
     type: text
+    display: API Key
+    instructions: You can get a key <a href="https://free.currencyconverterapi.com/free-api-key" target="_blank">here</a> for free.

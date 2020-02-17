@@ -37,7 +37,7 @@ class CurrencyConverterAPI extends API
         if ($rateObject != false) {
             $rateObject = json_decode($rateObject);
 
-            if ($rateObject == false || !isset($rateObject->results{$key}) || $rateObject->query->count == 0) {
+            if ($rateObject == false || !isset($rateObject->results->{$key}) || $rateObject->query->count == 0) {
                 Log::info('Currency-Converter: Could not gather the rate of the conversion ' . $key);
                 return false;
             }
